@@ -1,0 +1,61 @@
+﻿//-----------------------------------------------------------------------
+// <copyright file="MainWindow.xaml.cs" company="None">
+//     
+// </copyright>
+// <author>Grady Brandt</author>
+//-----------------------------------------------------------------------
+namespace WpfFractals
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using System.Windows;
+    using System.Windows.Controls;
+    using System.Windows.Data;
+    using System.Windows.Documents;
+    using System.Windows.Input;
+    using System.Windows.Media;
+    using System.Windows.Media.Imaging;
+    using System.Windows.Navigation;
+    using System.Windows.Shapes;
+
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml
+    /// </summary>
+    public partial class MainWindow : Window
+    {
+        /// <summary>
+        /// Initializes a new instance of the MainWindow class
+        /// ... damn StyleCop is anal.
+        /// </summary>
+        public MainWindow()
+        {
+            this.InitializeComponent();
+        }
+
+        /// <summary>
+        /// Handles the click event on the Binary Tree button
+        /// </summary>
+        /// <param name="sender">The object generating the event</param>
+        /// <param name="e">RoutedEventArgs event arguments</param>
+        private void BtnBinaryTree_Click(object sender, RoutedEventArgs e)
+        {
+            // set up the canvas background brush
+            GradientStopCollection gradStop = new GradientStopCollection();
+            gradStop.Add(new GradientStop((Color)ColorConverter.ConvertFromString("#FF2499FA"), 0.529));
+            gradStop.Add(new GradientStop((Color)ColorConverter.ConvertFromString("#FF683205"), 1));
+            LinearGradientBrush brushBG = new LinearGradientBrush(gradStop, new Point(0.5, 0), new Point(0.5, 1));
+
+            LineFractalWindow winBinaryTree = new LineFractalWindow() { BrushCanvasBG = brushBG };
+            winBinaryTree.Show();
+
+            // TODO: using the BrushCanvasBG property as the data bind source for the convas background doesn't seem to work. 
+            //       Don't know why offhand. Assigning the brush property to the canvas background in the constructor didn't work 
+            //       either. Probably that assignment occurs before the object initialization syntax puts an object in the property. 
+            //       Assigning it directly like this works but feels ugly like puppet strings.
+            winBinaryTree.fractalCanvas.Background = brushBG;
+        }
+    }
+}

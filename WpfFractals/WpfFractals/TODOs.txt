@@ -1,0 +1,18 @@
+﻿TODOs:
+from MainWindow.xaml.cs:
+            // TODO: using the BrushCanvasBG property as the data bind source for the convas background doesn't seem to work. 
+            //       Don't know why offhand. Assigning the brush property to the canvas background in the constructor didn't work 
+            //       either. Probably that assignment occurs before the object initialization syntax puts an object in the property. 
+            //       Assigning it directly like this works but feels ugly like puppet strings.
+
+Refactoring:
+Extract a Fractal object from the implementations in LineFractalWindow. Abstract Fractal, concrete LineFractal, Mandlebrot, &etc
+The LineFractalWindow class can be made general purpose be pulling all the fractal-specific processing out, giving it a fractal type member, and leaving it as just a 
+	display frame with a start button.
+
+
+Furture dev:
+The fractal window could be used as a base class to create 'complex' windows defining controls that allow interaction with the fractal
+	(a collection of WPF controls defined by the contained fractal object)
+
+Generalize the Binary Tree fractal to a Tree with parameterized branch spread (total angle of spread) and number of branches defaulted to the current 2 branches and 2PI/5 total spread angle
