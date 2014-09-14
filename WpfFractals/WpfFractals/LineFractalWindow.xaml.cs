@@ -1,6 +1,7 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="LineFractalWindow.xaml.cs" company="None">
-//     
+//     MIT License (MIT)
+//     Copyright (c) 2014 Grady Brandt
 // </copyright>
 // <author>Grady Brandt</author>
 //-----------------------------------------------------------------------
