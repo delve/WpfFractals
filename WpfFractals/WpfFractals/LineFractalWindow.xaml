@@ -5,8 +5,10 @@
     <StackPanel Orientation="Vertical">
         <StackPanel Orientation="Horizontal" Height="30">
             <Button x:Name="btnStart" Content="Draw Fractal" Click="BtnStart_Click" />
-            <Label x:Name="lblProgress" Width="Auto" Content="Not Started" />
         </StackPanel>
-        <Canvas x:Name="fractalCanvas" Width="590" Height="540" />
+        <Canvas x:Name="fractalCanvas" Width="590" Height="510" />
+        <StatusBar Focusable="False">
+            <TextBlock x:Name="statbarMessage" Text="Ready" />
+        </StatusBar>
     </StackPanel>
 </Window>
