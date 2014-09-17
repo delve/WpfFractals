@@ -16,3 +16,7 @@ The fractal window could be used as a base class to create 'complex' windows def
 	(a collection of WPF controls defined by the contained fractal object)
 
 Generalize the Binary Tree fractal to a Tree with parameterized branch spread (total angle of spread) and number of branches defaulted to the current 2 branches and 2PI/5 total spread angle
+
+while refactoring out a Fractal and LineExtensionFractal object the status messaging was cut out. Re-implement that somehow.
+
+move the sanity check out of Fractal.<child>.StartRender() into the Fractal base class somehow

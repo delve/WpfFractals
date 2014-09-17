@@ -1,7 +1,7 @@
-﻿<Window x:Name="window" x:Class="WpfFractals.LineFractalWindow"
+﻿<Window x:Name="window" x:Class="WpfFractals.FractalWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="LineFractalWindow" Height="600" Width="600">
+        Title="Fractal Window" Height="600" Width="600">
     <StackPanel Orientation="Vertical">
         <StackPanel Orientation="Horizontal" Height="30">
             <Button x:Name="btnStart" Content="Draw Fractal" Click="BtnStart_Click" />

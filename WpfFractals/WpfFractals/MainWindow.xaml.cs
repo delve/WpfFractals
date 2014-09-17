@@ -7,20 +7,8 @@
 //-----------------------------------------------------------------------
 namespace WpfFractals
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
     using System.Windows;
-    using System.Windows.Controls;
-    using System.Windows.Data;
-    using System.Windows.Documents;
-    using System.Windows.Input;
     using System.Windows.Media;
-    using System.Windows.Media.Imaging;
-    using System.Windows.Navigation;
-    using System.Windows.Shapes;
 
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -50,7 +38,13 @@ namespace WpfFractals
             LinearGradientBrush brushBG = new LinearGradientBrush(gradStop, new Point(0.5, 0), new Point(0.5, 1));
 
             LineFractalWindow winBinaryTree = new LineFractalWindow() { BrushCanvasBG = brushBG };
-            winBinaryTree.Show();
+            // winBinaryTree.Show();
+
+            LineExtensionFractal fractal = new LineExtensionFractal(1, 10, 5);
+
+            FractalWindow winLineFrac = new FractalWindow(fractal);
+            winLineFrac.fractalCanvas.Background = brushBG;
+            winLineFrac.Show();
 
             // TODO: using the BrushCanvasBG property as the data bind source for the convas background doesn't seem to work. 
             //       Don't know why offhand. Assigning the brush property to the canvas background in the constructor didn't work 
