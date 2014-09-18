@@ -69,6 +69,7 @@
     <Compile Include="FractalWindow.xaml.cs">
       <DependentUpon>FractalWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="LineBendingFractal.cs" />
     <Compile Include="LineExtensionFractal.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

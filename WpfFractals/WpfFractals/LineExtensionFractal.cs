@@ -59,13 +59,15 @@ namespace WpfFractals
         /// <param name="speed">Roughly controls the drawing speed by skipping 'speed' number of rendering cycles between depth renderings</param>
         /// <param name="angleDelta">Child branchs' angle +/- delta from the parent</param>
         /// <param name="childScale">Ratio of child branchs' length to parents'</param>
-        public LineExtensionFractal(int minPixels, int depth = 0, int speed = 0, double angleDelta = Math.PI / 5, double childScale = 0.75)
+        public LineExtensionFractal(int minPixels, int depth = 0, int speed = 1, double angleDelta = Math.PI / 5, double childScale = 0.75)
         {
             this.MinSize = minPixels;
             this.MaxDepth = depth;
             this.DrawSpeed = speed;
             this.DeltaTheta = angleDelta;
             this.LengthScale = childScale;
+            this.RenderTicks = 0;
+            this.FractalDepth = 0;
 
             // Safety check. MinSize 0 
             if (0 == this.MinSize && 0 == this.MaxDepth)
@@ -124,26 +126,21 @@ namespace WpfFractals
                 // TODO: re-implement this somehow
                 ////this.statbarMessage.Text = "Binary Tree - Depth = " + this.fractalDepth.ToString() + ". # of Branches = " + this.fractalCanvas.Children.Count;
                 this.FractalDepth += 1;
-                if (this.FractalDepth > 10)
+                if (this.FractalDepth > this.MaxDepth || this.FractalDepth < 0)
                 {
                     // TODO: re-implement this somehow
                     ////this.statbarMessage.Text = "Binary Tree - Depth = 10. Finished. # of Branches = " + this.fractalCanvas.Children.Count;
+
+                    // stop the render process and reset the fractal to draw again
                     CompositionTarget.Rendering -= this.StartRender;
+                    this.RenderTicks = 0;
+                    this.FractalDepth = 0;
                 }
             }
         }
         #endregion
 
         #region Methods
-        /// <summary>
-        /// Draws the fractal upon the parameter canvas object.
-        /// </summary>
-        /// <param name="canvas">The canvas to be drawn upon</param>
-        protected override void DrawFractal(System.Windows.Controls.Canvas canvas)
-        {
-            throw new NotImplementedException();
-        }
-
         /// <summary>
         /// Draws a single branch of the binary tree and, if not at the recursion limit, calls DrawBinaryTreeBranch for each of this branch's children
         /// </summary>
@@ -170,6 +167,14 @@ namespace WpfFractals
             // and stick it on the canvas
             canvas.Children.Add(line);
 
+            // check for reaching minimum line length
+            if (length * this.LengthScale < this.MinSize)
+            {
+                // Set FractalDepth to a breakout value
+                this.FractalDepth = -1;
+                // abort before starting the child rendering process
+                return;
+            }
             // We still have depth remaining to plumb, so draw the next two segments
             if (depth > 1)
             {

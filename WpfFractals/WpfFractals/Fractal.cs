@@ -77,11 +77,6 @@ namespace WpfFractals
         #endregion
 
         #region Methods
-        /// <summary>
-        /// Draws the fractal upon the parameter canvas object.
-        /// </summary>
-        /// <param name="canvas">The canvas to be drawn upon</param>
-        protected abstract void DrawFractal(Canvas canvas);
         #endregion
     }
 }

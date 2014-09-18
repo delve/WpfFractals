@@ -5,18 +5,22 @@ from MainWindow.xaml.cs:
             //       either. Probably that assignment occurs before the object initialization syntax puts an object in the property. 
             //       Assigning it directly like this works but feels ugly like puppet strings.
 
+Fixes:
+while refactoring out a Fractal and LineExtensionFractal object the status messaging was cut out. Re-implement that somehow.
+
+
 Refactoring:
-Extract a Fractal object from the implementations in LineFractalWindow. Abstract Fractal, concrete LineFractal, Mandlebrot, &etc
-The LineFractalWindow class can be made general purpose be pulling all the fractal-specific processing out, giving it a fractal type member, and leaving it as just a 
-	display frame with a start button.
+move the sanity check out of Fractal.<child>.StartRender() into the Fractal base class somehow
 
 
 Furture dev:
 The fractal window could be used as a base class to create 'complex' windows defining controls that allow interaction with the fractal
 	(a collection of WPF controls defined by the contained fractal object)
 
-Generalize the Binary Tree fractal to a Tree with parameterized branch spread (total angle of spread) and number of branches defaulted to the current 2 branches and 2PI/5 total spread angle
+These generalizing features will likely require stripping out the StartRender implementation entirely and defining the rendering algorithm as a function parameter or property. 
+	Might also require adding a collection of arbitrary objects to hold implementation specific variables.
 
-while refactoring out a Fractal and LineExtensionFractal object the status messaging was cut out. Re-implement that somehow.
+Generalize the line extension fractal to accomodate parameterized branch spread (total angle of spread) and number of branches defaulted to the current 2 branches and 2PI/5 total spread angle
+   as well as allowing arbitrary branching point in the line (single point only)
 
-move the sanity check out of Fractal.<child>.StartRender() into the Fractal base class somehow
+Generalize the line bending fractal to accomodate arbitrary bending patterns

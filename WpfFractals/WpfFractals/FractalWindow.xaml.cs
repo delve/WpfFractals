@@ -30,7 +30,8 @@ namespace WpfFractals
         /// <param name="drawFractal">The fractal object to be rendered</param>
         public FractalWindow(Fractal drawFractal)
         {
-            InitializeComponent();
+            this.InitializeComponent();
+
             // Set up the fractal object
             this.DrawFractal = drawFractal;
             this.DrawFractal.FractalCanvas = this.fractalCanvas;
