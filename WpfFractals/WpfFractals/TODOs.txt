@@ -10,11 +10,7 @@ Fixes:
 Refactoring:
 move the sanity check out of Fractal.<child>.StartRender() into the Fractal base class somehow
 
-
-Furture dev:
-The fractal window could be used as a base class to create 'complex' windows defining controls that allow interaction with the fractal
-	(a collection of WPF controls defined by the contained fractal object)
-
+Features:
 These generalizing features will likely require stripping out the StartRender implementation entirely and defining the rendering algorithm as a function parameter or property. 
 	Might also require adding a collection of arbitrary objects to hold implementation specific variables.
 
@@ -22,3 +18,8 @@ Generalize the line extension fractal to accomodate parameterized branch spread 
    as well as allowing arbitrary branching point in the line (single point only)
 
 Generalize the line bending fractal to accomodate arbitrary bending patterns
+
+Future dev:
+The fractal window could be used as a base class to create 'complex' windows defining controls that allow interaction with the fractal
+	(a collection of WPF controls defined by the contained fractal object)
+
