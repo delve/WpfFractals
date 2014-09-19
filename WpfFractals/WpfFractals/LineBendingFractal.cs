@@ -30,6 +30,13 @@
         }
         #endregion
 
+        #region Events
+        /// <summary>
+        /// Status update events
+        /// </summary>
+        public override event StatusDelegate StatusUpdate;
+        #endregion
+
         #region Properties
         #endregion
 
@@ -75,7 +82,8 @@
                 this.DrawSnowFlake(this.FractalCanvas, this.snowflakeSize, this.FractalDepth);
                 
                 // TODO: implement update of render status here
-                //
+                //// -
+
                 this.FractalDepth += 1;
                 if (this.FractalDepth > this.MaxDepth || this.FractalDepth < 0)
                 {
@@ -132,6 +140,7 @@
                 snowflakePoint = pt;
                 return;
             }
+
             distance *= distanceScale;
             for (int j = 0; j < 4; j++)
             {

@@ -32,6 +32,21 @@ namespace WpfFractals
         }
         #endregion
 
+        #region Delegates
+        /// <summary>
+        /// Delegates for handling status message events
+        /// </summary>
+        /// <param name="message">The status update message</param>
+        public delegate void StatusDelegate(string message);
+        #endregion
+
+        #region Events
+        /// <summary>
+        /// Status update events
+        /// </summary>
+        public abstract event StatusDelegate StatusUpdate;
+        #endregion
+
         #region Properties
         /// <summary>
         /// Gets or sets the canvas that the fractal will be drawn onto

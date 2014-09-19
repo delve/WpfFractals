@@ -35,6 +35,7 @@ namespace WpfFractals
             // Set up the fractal object
             this.DrawFractal = drawFractal;
             this.DrawFractal.FractalCanvas = this.fractalCanvas;
+            this.DrawFractal.StatusUpdate += this.HandleStatusUpdate;
         }
         #endregion
 
@@ -55,6 +56,15 @@ namespace WpfFractals
 
         #region Event handlers
         /// <summary>
+        /// Handles status update events from the hosted fractal
+        /// </summary>
+        /// <param name="message">The message from the fractal</param>
+        public void HandleStatusUpdate(string message)
+        {
+            this.statbarMessage.Text = message;
+        }
+
+        /// <summary>
         /// Handles the click event on the start button, beginning the process of drawing the fractal
         /// </summary>
         /// <param name="sender">The object generating the event</param>
@@ -63,9 +73,9 @@ namespace WpfFractals
         {
             this.fractalCanvas.Children.Clear();
             this.statbarMessage.Text = "Drawing...";
+
             CompositionTarget.Rendering += this.DrawFractal.StartRender;
         }
-
         #endregion
 
         #region Methods

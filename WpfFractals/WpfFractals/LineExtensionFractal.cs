@@ -77,6 +77,13 @@ namespace WpfFractals
         }
         #endregion
 
+        #region Events
+        /// <summary>
+        /// Status update events
+        /// </summary>
+        public override event StatusDelegate StatusUpdate;
+        #endregion
+
         #region Properties
         /// <summary>
         /// Gets or sets the minimum size of a line segment in pixels (ending point for the recursion, defaults 0)
@@ -123,8 +130,7 @@ namespace WpfFractals
                     0.2 * this.FractalCanvas.Width,
                     -Math.PI / 2);
 
-                // TODO: re-implement this somehow
-                ////this.statbarMessage.Text = "Binary Tree - Depth = " + this.fractalDepth.ToString() + ". # of Branches = " + this.fractalCanvas.Children.Count;
+                this.StatusUpdate("Binary Tree - Depth = " + this.FractalDepth.ToString() + ". # of Branches = " + this.FractalCanvas.Children.Count);
                 this.FractalDepth += 1;
                 if (this.FractalDepth > this.MaxDepth || this.FractalDepth < 0)
                 {
@@ -172,9 +178,11 @@ namespace WpfFractals
             {
                 // Set FractalDepth to a breakout value
                 this.FractalDepth = -1;
+
                 // abort before starting the child rendering process
                 return;
             }
+
             // We still have depth remaining to plumb, so draw the next two segments
             if (depth > 1)
             {

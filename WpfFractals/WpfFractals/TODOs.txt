@@ -6,8 +6,6 @@ from MainWindow.xaml.cs:
             //       Assigning it directly like this works but feels ugly like puppet strings.
 
 Fixes:
-while refactoring out a Fractal and LineExtensionFractal object the status messaging was cut out. Re-implement that somehow.
-
 
 Refactoring:
 move the sanity check out of Fractal.<child>.StartRender() into the Fractal base class somehow

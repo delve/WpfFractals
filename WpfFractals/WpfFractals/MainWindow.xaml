@@ -5,7 +5,7 @@
     <StackPanel Orientation="Horizontal">
         <StackPanel Orientation="Vertical">
             <Button x:Name="btnBinaryTree" Content="Binary Tree" Margin="5" Click="BtnBinaryTree_Click" />
-            <Button x:Name="btnSnowflake" Content="Koch Snowflake" Margin="5" Click="btnSnowflake_Click" />
+            <Button x:Name="btnSnowflake" Content="Koch Snowflake" Margin="5" Click="BtnSnowflake_Click" />
         </StackPanel>
     </StackPanel>
 </Window>
