@@ -4,7 +4,7 @@
         Title="MainWindow" Height="350" Width="525">
     <StackPanel Orientation="Horizontal">
         <StackPanel Orientation="Vertical">
-            <Button x:Name="btnBinaryTree" Content="Binary Tree" Margin="5" Click="BtnBinaryTree_Click" />
+            <Button x:Name="btnBinaryTree" Content="Tree" Margin="5" Click="BtnTree_Click" />
             <Button x:Name="btnSnowflake" Content="Koch Snowflake" Margin="5" Click="BtnSnowflake_Click" />
         </StackPanel>
     </StackPanel>

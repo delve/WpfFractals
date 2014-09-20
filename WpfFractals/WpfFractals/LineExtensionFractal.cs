@@ -56,10 +56,10 @@ namespace WpfFractals
         /// 0 will draw the fractal to the defined maximum depth, or depth 1 if depth is also set to 0.</param>
         /// <param name="depth">Sets the maximum depth to use in the recursion. 
         /// 0 will draw the fractal to the defined minimum line segment length, or depth 1 if minPixels is also set to 0.</param>
-        /// <param name="speed">Roughly controls the drawing speed by skipping 'speed' number of rendering cycles between depth renderings</param>
+        /// <param name="speed">Roughly controls the drawing speed by skipping 'speed' number of rendering cycles between depth renderings. Higher = slower</param>
         /// <param name="angleDelta">Child branchs' angle +/- delta from the parent</param>
         /// <param name="childScale">Ratio of child branchs' length to parents'</param>
-        public LineExtensionFractal(int minPixels, int depth, int speed = 1, double angleDelta = Math.PI / 5, double childScale = 0.75, double childOffset = 1)
+        public LineExtensionFractal(int minPixels, int depth, int speed = 1, double angleDelta = Math.PI / 5, double childScale = 0.75, double childOffset = 0, double childOffsetRotation = 0)
         {
             this.MinSize = minPixels;
             this.MaxDepth = depth;
@@ -69,6 +69,7 @@ namespace WpfFractals
             this.RenderTicks = 0;
             this.FractalDepth = 0;
             this.ChildOffset = childOffset;
+            this.ChildOffsetRotation = childOffsetRotation;
 
             // Safety check. MinSize 0 
             if (0 == this.MinSize && 0 == this.MaxDepth)
@@ -108,6 +109,13 @@ namespace WpfFractals
         /// Expeced values 0.0->1.0, values outside this range will cause the fractal to be non-contiguous
         /// </summary>
         public double ChildOffset { get; set; }
+
+        /// <summary>
+        /// Gets or sets the angle of rotation from the theta of the parent segment applied to the offset.
+        /// If ChildOffset is 1.0 (no offset) this property is meaningless. This value is added to the
+        /// parent's theta prior to calculating the offset point.
+        /// </summary>
+        public double ChildOffsetRotation { get; set; }
         #endregion
 
         #region Event handlers
@@ -182,8 +190,9 @@ namespace WpfFractals
             if (depth > 1)
             {
                 // adjust the point representing this segment's endpoint based on ChildOffset
-                endX = endX - ((ChildOffset * length) * Math.Cos(theta));
-                endY = endY - ((ChildOffset * length) * Math.Sin(theta));
+                //theta = theta + this.ChildOffsetRotation;
+                endX = endX - ((this.ChildOffset * length) * Math.Cos(theta + this.ChildOffsetRotation));
+                endY = endY - ((this.ChildOffset * length) * Math.Sin(theta + this.ChildOffsetRotation));
 
                 // draw the +theta segment
                 this.DrawBranch(

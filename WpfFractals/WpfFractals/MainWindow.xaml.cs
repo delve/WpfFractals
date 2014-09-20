@@ -7,6 +7,7 @@
 //-----------------------------------------------------------------------
 namespace WpfFractals
 {
+    using System;
     using System.Windows;
     using System.Windows.Media;
 
@@ -29,7 +30,7 @@ namespace WpfFractals
         /// </summary>
         /// <param name="sender">The object generating the event</param>
         /// <param name="e">RoutedEventArgs event arguments</param>
-        private void BtnBinaryTree_Click(object sender, RoutedEventArgs e)
+        private void BtnTree_Click(object sender, RoutedEventArgs e)
         {
             // set up the canvas background brush and instantiate the window with it
             GradientStopCollection gradStop = new GradientStopCollection();
@@ -40,7 +41,8 @@ namespace WpfFractals
 
             // setup the fractal we're going to draw and put it in a new FractalWindow object
             LineExtensionFractal fractal = new LineExtensionFractal(1, 10, 5);
-            fractal.ChildOffset = 1.5;
+            fractal.ChildOffset = 0.2;
+            fractal.ChildOffsetRotation = 3 * Math.PI / 2;
             winFrac.HostedFractal = fractal;
             winFrac.Show();
         }
