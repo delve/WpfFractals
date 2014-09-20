@@ -40,6 +40,7 @@ namespace WpfFractals
 
             // setup the fractal we're going to draw and put it in a new FractalWindow object
             LineExtensionFractal fractal = new LineExtensionFractal(1, 10, 5);
+            fractal.ChildOffset = 1.5;
             winFrac.HostedFractal = fractal;
             winFrac.Show();
         }

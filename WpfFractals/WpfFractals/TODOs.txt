@@ -10,12 +10,19 @@ Features:
 These generalizing features will likely require stripping out the DrawFractal implementation entirely and defining the rendering algorithm as a function parameter or property. 
 	Might also require adding a collection of arbitrary objects to hold implementation specific variables.
 
-Generalize the line extension fractal to accomodate parameterized branch spread (total angle of spread) and number of branches defaulted to the current 2 branches and 2PI/5 total spread angle
-   as well as allowing arbitrary branching point in the line (single point only)
+	Line extension fractal features:
+Accomodate parameterized branch spread (total angle of spread) defaulted to the current 2PI/5 total spread angle
+Accomodate parameterized number of branches defaulted to the current 2 branches
+Allow angle of rotation for ChildOffest (starting the child line on some point not along the parent but relative to the parents' ending point)
+Consider accomodating multiple start points
 
+	Line bending fractal features
 Generalize the line bending fractal to accomodate arbitrary bending patterns
 
 Future dev:
+Implement non-line fractals (Mandelbrot)
+
 The fractal window could be used as a base class to create 'complex' windows defining controls that allow interaction with the fractal
 	(a collection of WPF controls defined by the contained fractal object)
 
+Re-implement as Lindenmayer systems (with associated L-system interpretation engine)

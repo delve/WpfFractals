@@ -59,15 +59,16 @@ namespace WpfFractals
         /// <param name="speed">Roughly controls the drawing speed by skipping 'speed' number of rendering cycles between depth renderings</param>
         /// <param name="angleDelta">Child branchs' angle +/- delta from the parent</param>
         /// <param name="childScale">Ratio of child branchs' length to parents'</param>
-        public LineExtensionFractal(int minPixels, int depth = 0, int speed = 1, double angleDelta = Math.PI / 5, double childScale = 0.75)
+        public LineExtensionFractal(int minPixels, int depth, int speed = 1, double angleDelta = Math.PI / 5, double childScale = 0.75, double childOffset = 1)
         {
             this.MinSize = minPixels;
             this.MaxDepth = depth;
             this.DrawSpeed = speed;
             this.DeltaTheta = angleDelta;
-            this.LengthScale = childScale;
+            this.ChildScale = childScale;
             this.RenderTicks = 0;
             this.FractalDepth = 0;
+            this.ChildOffset = childOffset;
 
             // Safety check. MinSize 0 
             if (0 == this.MinSize && 0 == this.MaxDepth)
@@ -93,12 +94,20 @@ namespace WpfFractals
         /// <summary>
         /// Gets or sets the length ratio of child : parent branch.
         /// </summary>
-        public double LengthScale { get; set; }
+        public double ChildScale { get; set; }
 
         /// <summary>
         /// Gets or sets the angle +/- delta for child branches
         /// </summary>
-        public double DeltaTheta { get; set; }        
+        public double DeltaTheta { get; set; }
+
+        /// <summary>
+        /// Gets or sets the offset of the child lines as a percentage of parent segment length.
+        /// Starting point of child line segments will be moved back from the end of the parent 
+        /// segment by this percentage of the parent line length.
+        /// Expeced values 0.0->1.0, values outside this range will cause the fractal to be non-contiguous
+        /// </summary>
+        public double ChildOffset { get; set; }
         #endregion
 
         #region Event handlers
@@ -113,7 +122,7 @@ namespace WpfFractals
             this.FractalCanvas.Children.Clear();
 
             // Start the actual rendering
-            this.DrawBinaryTreeBranch(
+            this.DrawBranch(
                 this.FractalCanvas,
                 this.FractalDepth,
                 new Point(this.FractalCanvas.Width / 2, 0.83 * this.FractalCanvas.Height),
@@ -134,14 +143,14 @@ namespace WpfFractals
         }
 
         /// <summary>
-        /// Draws a single branch of the binary tree and, if not at the recursion limit, calls DrawBinaryTreeBranch for each of this branch's children
+        /// Draws a single branch of the tree and, if not at the recursion limit, calls DrawBranch for each of this branch's children
         /// </summary>
         /// <param name="canvas">Target canvas</param>
         /// <param name="depth">Current drawing depth (recursion limit)</param>
         /// <param name="pt">Point representing the starting location for this branch</param>
         /// <param name="length">The length of the line segment to draw for this branch</param>
         /// <param name="theta">The angle this line segment will be drawn at</param>
-        private void DrawBinaryTreeBranch(Canvas canvas, int depth, Point pt, double length, double theta)
+        private void DrawBranch(Canvas canvas, int depth, Point pt, double length, double theta)
         {
             // define the endpoint of this line segment using tangent length and angle (theta)
             //  in other words, Pythagorean theorem
@@ -160,7 +169,7 @@ namespace WpfFractals
             canvas.Children.Add(line);
 
             // check for reaching minimum line length
-            if (length * this.LengthScale < this.MinSize)
+            if (length * this.ChildScale < this.MinSize)
             {
                 // Set FractalDepth to a breakout value
                 this.FractalDepth = -1;
@@ -172,20 +181,24 @@ namespace WpfFractals
             // We still have depth remaining to plumb, so draw the next two segments
             if (depth > 1)
             {
+                // adjust the point representing this segment's endpoint based on ChildOffset
+                endX = endX - ((ChildOffset * length) * Math.Cos(theta));
+                endY = endY - ((ChildOffset * length) * Math.Sin(theta));
+
                 // draw the +theta segment
-                this.DrawBinaryTreeBranch(
+                this.DrawBranch(
                     canvas,
                     depth - 1,
                     new Point(endX, endY),
-                    length * this.LengthScale,
+                    length * this.ChildScale,
                     theta + this.DeltaTheta);
 
                 // draw the -theta segment
-                this.DrawBinaryTreeBranch(
+                this.DrawBranch(
                     canvas,
                     depth - 1,
                     new Point(endX, endY),
-                    length * this.LengthScale,
+                    length * this.ChildScale,
                     theta - this.DeltaTheta);
 
                 ////// draw the +1/2theta segment
