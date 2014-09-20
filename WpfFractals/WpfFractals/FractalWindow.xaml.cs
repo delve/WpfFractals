@@ -20,6 +20,10 @@ namespace WpfFractals
     public partial class FractalWindow : Window
     {
         #region Fields
+        /// <summary>
+        /// A private field backing the DrawFractal property
+        /// </summary>
+        private Fractal neatFractal;
         #endregion
 
         #region Constructors
@@ -27,15 +31,9 @@ namespace WpfFractals
         /// Initializes a new instance of the FractalWindow class.
         /// This window is used to draw fractals composed of lines
         /// </summary>
-        /// <param name="drawFractal">The fractal object to be rendered</param>
-        public FractalWindow(Fractal drawFractal)
+        public FractalWindow()
         {
             this.InitializeComponent();
-
-            // Set up the fractal object
-            this.DrawFractal = drawFractal;
-            this.DrawFractal.FractalCanvas = this.fractalCanvas;
-            this.DrawFractal.StatusUpdate += this.HandleStatusUpdate;
         }
         #endregion
 
@@ -50,8 +48,23 @@ namespace WpfFractals
 
         /// <summary>
         /// Gets or sets the Fractal object that this window will draw.
+        /// Gives the Fractal access to the interaction objects it needs
         /// </summary>
-        public Fractal DrawFractal { get; set; }
+        public Fractal HostedFractal 
+        {
+            get 
+            { 
+                return this.neatFractal; 
+            }
+
+            set 
+            { 
+                // Set up the fractal object
+                this.neatFractal = value;
+                this.HostedFractal.FractalCanvas = this.fractalCanvas;
+                this.HostedFractal.StatusUpdate += this.HandleStatusUpdate;
+            }
+        }
         #endregion
 
         #region Event handlers
@@ -74,7 +87,7 @@ namespace WpfFractals
             this.fractalCanvas.Children.Clear();
             this.statbarMessage.Text = "Drawing...";
 
-            CompositionTarget.Rendering += this.DrawFractal.StartRender;
+            CompositionTarget.Rendering += this.HostedFractal.StartRender;
         }
         #endregion
 

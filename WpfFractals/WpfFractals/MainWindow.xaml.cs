@@ -39,7 +39,8 @@ namespace WpfFractals
 
             // setup the fractal we're going to draw and put it in a new FractalWindow object
             LineExtensionFractal fractal = new LineExtensionFractal(1, 10, 5);
-            FractalWindow winFrac = new FractalWindow(fractal);
+            FractalWindow winFrac = new FractalWindow();
+            winFrac.HostedFractal = fractal;
 
             // TODO: using the BrushCanvasBG property as the data bind source for the convas background doesn't seem to work. 
             //       Don't know why offhand. Assigning the brush property to the canvas background in the constructor didn't work 
@@ -49,6 +50,11 @@ namespace WpfFractals
             winFrac.Show();
         }
 
+        /// <summary>
+        /// Handles the click event on the Koch Snowflake button
+        /// </summary>
+        /// <param name="sender">The object generating the event</param>
+        /// <param name="e">RoutedEventArgs event arguments</param>
         private void BtnSnowflake_Click(object sender, RoutedEventArgs e)
         {
             // set up the canvas background brush
@@ -60,7 +66,8 @@ namespace WpfFractals
 
             // setup the fractal we're going to draw and put it in a new FractalWindow object
             LineBendingFractal fractal = new LineBendingFractal();
-            FractalWindow winFrac = new FractalWindow(fractal);
+            FractalWindow winFrac = new FractalWindow();
+            winFrac.HostedFractal = fractal;
 
             // TODO: using the BrushCanvasBG property as the data bind source for the convas background doesn't seem to work. 
             //       Don't know why offhand. Assigning the brush property to the canvas background in the constructor didn't work 

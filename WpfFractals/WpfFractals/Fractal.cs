@@ -82,16 +82,32 @@ namespace WpfFractals
 
         #region Event handlers
         /// <summary>
-        /// Sets up to render the fractal to screen and starts the rendering process.
+        /// Starts rendering the fractal onto the canvas.
         /// This can be assigned to an event typically CompositionTarget.Rendering and
         /// calls the DrawFractal method
         /// </summary>
         /// <param name="sender">The object generating the event</param>
         /// <param name="e">EventArgs event arguments</param>
-        public abstract void StartRender(object sender, EventArgs e);
+        public void StartRender(object sender, EventArgs e)
+        {
+                        // Sanity check, we need a canvas in order to render
+            // TODO: factor this into the partent somehow 
+            if (null == this.FractalCanvas)
+            {
+                return;
+            }
+
+            // Track how many times the 'CompositionTarget.Rendering' event fires in order to slow down the render animation.
+            this.RenderTicks += 1;
+            if (0 == this.RenderTicks % this.DrawSpeed)
+            {
+                this.DrawFractal();
+            }
+        }
         #endregion
 
         #region Methods
+        protected abstract void DrawFractal();
         #endregion
     }
 }

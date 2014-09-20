@@ -102,51 +102,37 @@ namespace WpfFractals
         #endregion
 
         #region Event handlers
-        /// <summary>
-        /// Sets up to render the fractal to screen and starts the rendering process
-        /// </summary>
-        /// <param name="sender">The object generating the event</param>
-        /// <param name="e">EventArgs event arguments</param>
-        public override void StartRender(object sender, EventArgs e)
-        {
-            // Sanity check, we need a canvas in order to render
-            // TODO: factor this into the partent somehow (it's an abstract class, so how?)
-            if (null == this.FractalCanvas)
-            {
-                return;
-            }
-
-            // Track how many times the 'CompositionTarget.Rendering' event fires in order to slow down the render animation.
-            this.RenderTicks += 1;
-            if (0 == this.RenderTicks % this.DrawSpeed)
-            {
-                this.FractalCanvas.Children.Clear();
-
-                // Start the actual rendering
-                this.DrawBinaryTreeBranch(
-                    this.FractalCanvas,
-                    this.FractalDepth,
-                    new Point(this.FractalCanvas.Width / 2, 0.83 * this.FractalCanvas.Height),
-                    0.2 * this.FractalCanvas.Width,
-                    -Math.PI / 2);
-
-                this.StatusUpdate("Binary Tree - Depth = " + this.FractalDepth.ToString() + ". # of Branches = " + this.FractalCanvas.Children.Count);
-                this.FractalDepth += 1;
-                if (this.FractalDepth > this.MaxDepth || this.FractalDepth < 0)
-                {
-                    // TODO: re-implement this somehow
-                    ////this.statbarMessage.Text = "Binary Tree - Depth = 10. Finished. # of Branches = " + this.fractalCanvas.Children.Count;
-
-                    // stop the render process and reset the fractal to draw again
-                    CompositionTarget.Rendering -= this.StartRender;
-                    this.RenderTicks = 0;
-                    this.FractalDepth = 0;
-                }
-            }
-        }
         #endregion
 
         #region Methods
+        /// <summary>
+        /// Executes one pass of the iterative process of drawing the fractal
+        /// </summary>
+        protected override void DrawFractal()
+        {
+            this.FractalCanvas.Children.Clear();
+
+            // Start the actual rendering
+            this.DrawBinaryTreeBranch(
+                this.FractalCanvas,
+                this.FractalDepth,
+                new Point(this.FractalCanvas.Width / 2, 0.83 * this.FractalCanvas.Height),
+                0.2 * this.FractalCanvas.Width,
+                -Math.PI / 2);
+
+            this.StatusUpdate("Binary Tree - Depth = " + this.FractalDepth.ToString() + ". # of Branches = " + this.FractalCanvas.Children.Count);
+            this.FractalDepth += 1;
+            if (this.FractalDepth > this.MaxDepth || this.FractalDepth < 0)
+            {
+                this.StatusUpdate("Binary Tree - Depth = " + this.FractalDepth.ToString() + ". Finished. # of Branches = " + this.FractalCanvas.Children.Count);
+
+                // stop the render process and reset the fractal to draw again
+                CompositionTarget.Rendering -= this.StartRender;
+                this.RenderTicks = 0;
+                this.FractalDepth = 0;
+            }
+        }
+
         /// <summary>
         /// Draws a single branch of the binary tree and, if not at the recursion limit, calls DrawBinaryTreeBranch for each of this branch's children
         /// </summary>

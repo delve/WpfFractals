@@ -8,7 +8,7 @@ from MainWindow.xaml.cs:
 Fixes:
 
 Refactoring:
-move the sanity check out of Fractal.<child>.StartRender() into the Fractal base class somehow
+
 
 Features:
 These generalizing features will likely require stripping out the StartRender implementation entirely and defining the rendering algorithm as a function parameter or property. 

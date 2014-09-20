@@ -1,4 +1,11 @@
-﻿namespace WpfFractals
+﻿//-----------------------------------------------------------------------
+// <copyright file="LineBendingFractal.cs" company="None">
+//     MIT License (MIT)
+//     Copyright (c) 2014 Grady Brandt
+// </copyright>
+// <author>Grady Brandt</author>
+//-----------------------------------------------------------------------
+namespace WpfFractals
 {
     using System;
     using System.Collections.Generic;
@@ -18,8 +25,8 @@
         Polyline pl;
         private Point snowflakePoint = new Point();
         private double snowflakeSize;
-        private int II = 0;
-        private int i = 0;
+        // state indicator, controls execution of pre-render setup in DrawFractal
+        private bool rendering;
         #endregion
 
         #region Constructors
@@ -27,6 +34,7 @@
         {
             this.MaxDepth = 5;
             this.DrawSpeed = 10;
+            this.rendering = false;
         }
         #endregion
 
@@ -41,17 +49,15 @@
         #endregion
 
         #region Event Handlers
-        public override void StartRender(object sender, EventArgs e)
-        {
-            // sanity check, can't render to NULL
-            if (null == this.FractalCanvas)
-            {
-                return;
-            }
+        #endregion
 
-            if (0 == this.FractalDepth && 0 == this.RenderTicks)
+        #region Methods
+        protected override void DrawFractal()
+        {
+            if (false == this.rendering)
             {
                 // first cycle setup
+                this.rendering = true;
                 pl = new Polyline();
                 this.FractalCanvas.Children.Add(this.pl);
 
@@ -74,29 +80,23 @@
                 this.FractalDepth = 0;
             }
 
-            // start drawing
-            this.RenderTicks += 1;
-            if (this.RenderTicks % this.DrawSpeed == 0)
-            {
-                this.pl.Points.Clear();
-                this.DrawSnowFlake(this.FractalCanvas, this.snowflakeSize, this.FractalDepth);
+            this.pl.Points.Clear();
+            this.DrawSnowFlake(this.FractalCanvas, this.snowflakeSize, this.FractalDepth);
                 
-                // TODO: implement update of render status here
-                //// -
-
-                this.FractalDepth += 1;
-                if (this.FractalDepth > this.MaxDepth || this.FractalDepth < 0)
-                {
-                    // Rendering is complete, cleanup
-                    CompositionTarget.Rendering -= this.StartRender;
-                    this.RenderTicks = 0;
-                    this.FractalDepth = 0;
-                }
+            this.StatusUpdate("Koch Snowflake - Depth = " + this.FractalDepth.ToString() + ". # of Polyline points = " + this.pl.Points.Count.ToString());
+            this.FractalDepth += 1;
+            if (this.FractalDepth > this.MaxDepth || this.FractalDepth < 0)
+            {
+                this.StatusUpdate("Koch Snowflake - Depth = " + this.FractalDepth.ToString() + ". Finished. # of Polyline points = " + this.pl.Points.Count.ToString());
+                // Rendering is complete, cleanup
+                CompositionTarget.Rendering -= this.StartRender;
+                this.RenderTicks = 0;
+                this.FractalDepth = 0;
+                this.rendering = false;
             }
-        }
-        #endregion
 
-        #region Methods
+        } 
+
         private void DrawSnowFlake(Canvas canvas, double length, int depth)
         {
             double xmid = canvas.Width / 2;
