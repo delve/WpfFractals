@@ -107,6 +107,9 @@ namespace WpfFractals
         #endregion
 
         #region Methods
+        /// <summary>
+        /// Drawing the fractal, implementation is left to the child class
+        /// </summary>
         protected abstract void DrawFractal();
         #endregion
     }
