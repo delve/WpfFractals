@@ -32,8 +32,19 @@ namespace WpfFractals
         /// This window is used to draw fractals composed of lines
         /// </summary>
         public FractalWindow()
+            : this(Brushes.Wheat)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the FractalWindow class.
+        /// This window is used to draw fractals composed of lines
+        /// </summary>
+        /// <param name="background">A brush to use as the drawing canvas background</param>
+        public FractalWindow(Brush background)
         {
             this.InitializeComponent();
+            this.fractalCanvas.Background = background;
         }
         #endregion
 

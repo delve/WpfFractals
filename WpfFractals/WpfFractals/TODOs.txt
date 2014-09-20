@@ -1,9 +1,4 @@
 ﻿TODOs:
-from MainWindow.xaml.cs:
-            // TODO: using the BrushCanvasBG property as the data bind source for the convas background doesn't seem to work. 
-            //       Don't know why offhand. Assigning the brush property to the canvas background in the constructor didn't work 
-            //       either. Probably that assignment occurs before the object initialization syntax puts an object in the property. 
-            //       Assigning it directly like this works but feels ugly like puppet strings.
 properly grok the Koch Snowflake algorithm in order to improve the comments
 
 
@@ -12,7 +7,7 @@ Fixes:
 Refactoring:
 
 Features:
-These generalizing features will likely require stripping out the StartRender implementation entirely and defining the rendering algorithm as a function parameter or property. 
+These generalizing features will likely require stripping out the DrawFractal implementation entirely and defining the rendering algorithm as a function parameter or property. 
 	Might also require adding a collection of arbitrary objects to hold implementation specific variables.
 
 Generalize the line extension fractal to accomodate parameterized branch spread (total angle of spread) and number of branches defaulted to the current 2 branches and 2PI/5 total spread angle

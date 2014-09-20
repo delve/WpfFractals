@@ -31,22 +31,16 @@ namespace WpfFractals
         /// <param name="e">RoutedEventArgs event arguments</param>
         private void BtnBinaryTree_Click(object sender, RoutedEventArgs e)
         {
-            // set up the canvas background brush
+            // set up the canvas background brush and instantiate the window with it
             GradientStopCollection gradStop = new GradientStopCollection();
             gradStop.Add(new GradientStop((Color)ColorConverter.ConvertFromString("#FF2499FA"), 0.529));
             gradStop.Add(new GradientStop((Color)ColorConverter.ConvertFromString("#FF683205"), 1));
             LinearGradientBrush brushBG = new LinearGradientBrush(gradStop, new Point(0.5, 0), new Point(0.5, 1));
+            FractalWindow winFrac = new FractalWindow(brushBG);
 
             // setup the fractal we're going to draw and put it in a new FractalWindow object
             LineExtensionFractal fractal = new LineExtensionFractal(1, 10, 5);
-            FractalWindow winFrac = new FractalWindow();
             winFrac.HostedFractal = fractal;
-
-            // TODO: using the BrushCanvasBG property as the data bind source for the convas background doesn't seem to work. 
-            //       Don't know why offhand. Assigning the brush property to the canvas background in the constructor didn't work 
-            //       either. Probably that assignment occurs before the object initialization syntax puts an object in the property. 
-            //       Assigning it directly like this works but feels ugly like puppet strings.
-            winFrac.fractalCanvas.Background = brushBG;
             winFrac.Show();
         }
 
@@ -57,23 +51,17 @@ namespace WpfFractals
         /// <param name="e">RoutedEventArgs event arguments</param>
         private void BtnSnowflake_Click(object sender, RoutedEventArgs e)
         {
-            // set up the canvas background brush
+            // set up the canvas background brush and instantiate the window with it
             GradientStopCollection gradStop = new GradientStopCollection();
             gradStop.Add(new GradientStop((Color)ColorConverter.ConvertFromString("#FF88ADD8"), 0.947));
             gradStop.Add(new GradientStop((Color)ColorConverter.ConvertFromString("#FF235087"), 0.992));
             gradStop.Add(new GradientStop(Colors.White, 0));
             RadialGradientBrush brushBG = new RadialGradientBrush(gradStop);
+            FractalWindow winFrac = new FractalWindow(brushBG);
 
-            // setup the fractal we're going to draw and put it in a new FractalWindow object
+            // setup the fractal we're going to draw and put it in the FractalWindow object
             LineBendingFractal fractal = new LineBendingFractal();
-            FractalWindow winFrac = new FractalWindow();
             winFrac.HostedFractal = fractal;
-
-            // TODO: using the BrushCanvasBG property as the data bind source for the convas background doesn't seem to work. 
-            //       Don't know why offhand. Assigning the brush property to the canvas background in the constructor didn't work 
-            //       either. Probably that assignment occurs before the object initialization syntax puts an object in the property. 
-            //       Assigning it directly like this works but feels ugly like puppet strings.
-            winFrac.fractalCanvas.Background = brushBG;
             winFrac.Show();
         }
     }
