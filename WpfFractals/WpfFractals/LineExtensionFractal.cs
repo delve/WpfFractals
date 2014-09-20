@@ -20,7 +20,7 @@ namespace WpfFractals
     /// <summary>
     /// a class
     /// </summary>
-    public class LineExtensionFractal : Fractal
+    public class SymmetricTreeFractal : Fractal
     {
         #region Fields
         #endregion
@@ -31,7 +31,7 @@ namespace WpfFractals
         /// This class is used to draw fractals by algorithmically adding additional line
         /// segments onto each parent.
         /// </summary>
-        public LineExtensionFractal()
+        public SymmetricTreeFractal()
             : this(1, 0)
         {
         }
@@ -42,7 +42,7 @@ namespace WpfFractals
         /// segments onto each parent.
         /// </summary>
         /// <param name="minPixels">Sets the minimum size in pixels per line segment to use as an escape value for the recursion</param>
-        public LineExtensionFractal(int minPixels)
+        public SymmetricTreeFractal(int minPixels)
             : this(minPixels, 0)
         {
         }
@@ -59,7 +59,10 @@ namespace WpfFractals
         /// <param name="speed">Roughly controls the drawing speed by skipping 'speed' number of rendering cycles between depth renderings. Higher = slower</param>
         /// <param name="angleDelta">Child branchs' angle +/- delta from the parent</param>
         /// <param name="childScale">Ratio of child branchs' length to parents'</param>
-        public LineExtensionFractal(int minPixels, int depth, int speed = 1, double angleDelta = Math.PI / 5, double childScale = 0.75, double childOffset = 0, double childOffsetRotation = 0)
+        /// <param name="childOffset">The offset of the child lines as a percentage of parent segment length</param>
+        /// <param name="childOffsetRotation">The angle of rotation from the theta of the parent segment applied to the offset</param>
+        /// <param name="children">Number of child branches</param>
+        public SymmetricTreeFractal(int minPixels, int depth, int speed = 1, double angleDelta = Math.PI / 5, double childScale = 0.75, double childOffset = 0, double childOffsetRotation = 0, int children = 2)
         {
             this.MinSize = minPixels;
             this.MaxDepth = depth;
@@ -70,6 +73,7 @@ namespace WpfFractals
             this.FractalDepth = 0;
             this.ChildOffset = childOffset;
             this.ChildOffsetRotation = childOffsetRotation;
+            this.ChildCount = children;
 
             // Safety check. MinSize 0 
             if (0 == this.MinSize && 0 == this.MaxDepth)
@@ -98,7 +102,7 @@ namespace WpfFractals
         public double ChildScale { get; set; }
 
         /// <summary>
-        /// Gets or sets the angle +/- delta for child branches
+        /// Gets or sets the total angle +/- delta which is divided among the total number of child branches
         /// </summary>
         public double DeltaTheta { get; set; }
 
@@ -116,6 +120,11 @@ namespace WpfFractals
         /// parent's theta prior to calculating the offset point.
         /// </summary>
         public double ChildOffsetRotation { get; set; }
+
+        /// <summary>
+        /// Gets or sets the number of children for each parent branch
+        /// </summary>
+        public int ChildCount { get; set; }
         #endregion
 
         #region Event handlers
@@ -186,53 +195,26 @@ namespace WpfFractals
                 return;
             }
 
-            // We still have depth remaining to plumb, so draw the next two segments
+            // We still have depth remaining to plumb, so recurse into the next level of depth
             if (depth > 1)
             {
                 // adjust the point representing this segment's endpoint based on ChildOffset
-                //theta = theta + this.ChildOffsetRotation;
                 endX = endX - ((this.ChildOffset * length) * Math.Cos(theta + this.ChildOffsetRotation));
                 endY = endY - ((this.ChildOffset * length) * Math.Sin(theta + this.ChildOffsetRotation));
 
-                // draw the +theta segment
-                this.DrawBranch(
-                    canvas,
-                    depth - 1,
-                    new Point(endX, endY),
-                    length * this.ChildScale,
-                    theta + this.DeltaTheta);
-
-                // draw the -theta segment
-                this.DrawBranch(
-                    canvas,
-                    depth - 1,
-                    new Point(endX, endY),
-                    length * this.ChildScale,
-                    theta - this.DeltaTheta);
-
-                ////// draw the +1/2theta segment
-                ////this.DrawBinaryTreeBranch(
-                ////    canvas,
-                ////    depth - 1,
-                ////    new Point(endX, endY),
-                ////    length * this.lengthScale,
-                ////    theta + this.deltaTheta/2);
-
-                ////// draw the -1/2theta segment
-                ////this.DrawBinaryTreeBranch(
-                ////    canvas,
-                ////    depth - 1,
-                ////    new Point(endX, endY),
-                ////    length * this.lengthScale,
-                ////    theta - this.deltaTheta/2);
-
-                ////// draw a neutral theta segment
-                ////this.DrawBinaryTreeBranch(
-                ////    canvas,
-                ////    depth - 1,
-                ////    new Point(endX, endY),
-                ////    length * this.lengthScale,
-                ////    theta);
+                // calc the angle between each child and the starting position of the leftmost
+                double betweenTheta = this.DeltaTheta / (this.ChildCount - 1);
+                double childTheta = theta - (this.DeltaTheta / 2);
+                for (int c = 0; c < this.ChildCount; c++)
+                {
+                    this.DrawBranch(
+                        canvas,
+                        depth - 1,
+                        new Point(endX, endY),
+                        length * this.ChildScale,
+                        childTheta);
+                    childTheta = childTheta + betweenTheta;
+                }
             }
             else
             {
