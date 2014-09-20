@@ -19,11 +19,11 @@ Consider accomodating multiple start points
 Generalize the line bending fractal to accomodate arbitrary bending patterns
 
 Future dev:
-Implement non-line fractals (Mandelbrot)
+Re-implement as Lindenmayer systems (with associated L-system interpretation engine)
 
 The fractal window could be used as a base class to create 'complex' windows defining controls that allow interaction with the fractal
 	(a collection of WPF controls defined by the contained fractal object)
 		Give FractalWindow a toolbox and give Fractal type an empty container property for containing WPF controls. Supporting fractal subtypes will populate 
 			the container and implement data binding. When a fractal is added to FractalWindow it loads any controls into its toolbox.
 
-Re-implement as Lindenmayer systems (with associated L-system interpretation engine)
+Implement non-line fractals (Mandelbrot)

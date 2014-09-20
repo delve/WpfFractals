@@ -99,9 +99,18 @@ namespace WpfFractals
 
             // Track how many times the 'CompositionTarget.Rendering' event fires in order to slow down the render animation.
             this.RenderTicks += 1;
-            if (0 == this.RenderTicks % this.DrawSpeed)
+            if (this.DrawSpeed > 0 && 0 == this.RenderTicks % this.DrawSpeed)
             {
                 this.DrawFractal();
+            }
+            else
+            {
+                // We want it NOW. So skipp all the animation business.
+                if (0 == this.DrawSpeed)
+                {
+                    this.FractalDepth = this.MaxDepth;
+                    this.DrawFractal();
+                }
             }
         }
         #endregion
