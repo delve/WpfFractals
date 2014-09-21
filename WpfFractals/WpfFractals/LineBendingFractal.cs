@@ -24,12 +24,12 @@ namespace WpfFractals
     {
         #region Fields
         /// <summary>
-        /// Scale of child folds
+        /// Scale of child segments
         /// </summary>
         private double distanceScale = 1.0 / 3;
 
         /// <summary>
-        /// Array of offset angles for each triangular fold
+        /// Array of offset angles for each fold
         /// </summary>
         private double[] deltaTheta = new double[4] { 0, Math.PI / 3, -2 * Math.PI / 3, Math.PI / 3 };
 
@@ -39,14 +39,15 @@ namespace WpfFractals
         private Polyline pl;
 
         /// <summary>
-        /// A point, need to grok the algorithm better to know what it really does
+        /// Defines the legnth of the sides of the base shape
         /// </summary>
-        private Point snowflakePoint = new Point();
+        private double baseShapeSize;
 
         /// <summary>
-        /// need to grok the algorithm better to know what it really does
+        /// The current starting 'point' of the rendering process.
+        /// Carries the progress of the polyline back up the recursion chain for the next recursive dive
         /// </summary>
-        private double snowflakeSize;
+        private Point fractalPoint = new Point();
 
         /// <summary>
         /// state indicator, controls execution of pre-render setup in DrawFractal
@@ -81,18 +82,25 @@ namespace WpfFractals
 
         #region Methods
         /// <summary>
-        /// Executes one pass of the iterative process of drawing the fractal
+        /// Executes one pass of the iterative process of animating the fractal
         /// </summary>
         protected override void DrawFractal()
         {
-                // first cycle setup
+            // first cycle setup
+            // We don't want to re-calc all this every rendering cycle.
             if (false == this.rendering)
             {
+                // basic setup
                 this.rendering = true;
                 this.pl = new Polyline();
                 this.FractalCanvas.Children.Add(this.pl);
+                this.pl.Stroke = Brushes.Blue;
 
-                // determine the size of the snowflake
+                //ensure these control properties are reset
+                this.RenderTicks = 0;
+                this.FractalDepth = 0;
+
+                // determine the size of the initial trianle sides
                 double sizeY = 0.8 * this.FractalCanvas.Height / (Math.Sqrt(3) * 4 / 3);
                 double sizeX = 0.8 * this.FractalCanvas.Width / 2;
                 double size = 0;
@@ -105,20 +113,19 @@ namespace WpfFractals
                     size = sizeX;
                 }
 
-                this.snowflakeSize = 2 * size;
-                this.pl.Stroke = Brushes.Blue;
-                this.RenderTicks = 0;
-                this.FractalDepth = 0;
+                this.baseShapeSize = 2 * size;
             }
 
+            // clear the fractal in advance of this animation step
             this.pl.Points.Clear();
-            this.DrawSnowFlake(this.FractalCanvas, this.snowflakeSize, this.FractalDepth);
+
+            // draw this animation step
+            this.DrawBaseShape(this.FractalCanvas, this.baseShapeSize, this.FractalDepth);
                 
-            this.StatusUpdate("Koch Snowflake - Depth = " + this.FractalDepth.ToString() + ". # of Polyline points = " + this.pl.Points.Count.ToString());
-            this.FractalDepth += 1;
+            this.StatusUpdate("Snowflake - Depth = " + this.FractalDepth.ToString() + ". # of Polyline points = " + this.pl.Points.Count.ToString());
             if (this.FractalDepth > this.MaxDepth || this.FractalDepth < 0)
             {
-                this.StatusUpdate("Koch Snowflake - Depth = " + this.FractalDepth.ToString() + ". Finished. # of Polyline points = " + this.pl.Points.Count.ToString());
+                this.StatusUpdate("Snowflake - Depth = " + this.FractalDepth.ToString() + ". Finished. # of Polyline points = " + this.pl.Points.Count.ToString());
 
                 // Rendering is complete, cleanup
                 CompositionTarget.Rendering -= this.StartRender;
@@ -126,70 +133,88 @@ namespace WpfFractals
                 this.FractalDepth = 0;
                 this.rendering = false;
             }
+            this.FractalDepth += 1;
         } 
 
         /// <summary>
-        /// Adds a single fold pattern to the polyline
+        /// Calculates the 3 points of the polyline that form the base triangle (plus the starting point)
         /// </summary>
         /// <param name="canvas">The canvas to draw on</param>
         /// <param name="length">Length of the sides of the initial triangle</param>
         /// <param name="depth">Current drawing depth</param>
-        private void DrawSnowFlake(Canvas canvas, double length, int depth)
+        private void DrawBaseShape(Canvas canvas, double length, int depth)
         {
             double xmid = canvas.Width / 2;
             double ymid = canvas.Height / 2;
-            Point[] pta = new Point[4];
-            pta[0] = new Point(
+            Point[] basePoints = new Point[4];
+
+            // define the bottom point
+            basePoints[0] = new Point(
                 xmid,
                 ymid + (length / 2 * Math.Sqrt(3) * 2 / 3));
-            pta[1] = new Point(
+
+            // define the upper left point
+            basePoints[1] = new Point(
                 xmid + (length / 2),
                 ymid - (length / 2 * Math.Sqrt(3) / 3));
-            pta[2] = new Point(
+
+            // define the upper right point
+            basePoints[2] = new Point(
                 xmid - (length / 2),
                 ymid - (length / 2 * Math.Sqrt(3) / 3));
-            pta[3] = pta[0];
-            this.pl.Points.Add(pta[0]);
 
-            for (int j = 1; j < pta.Length; j++)
+            // and back to the bottom
+            basePoints[3] = basePoints[0];
+            this.pl.Points.Add(basePoints[0]);
+
+            // recurse down each leg of the triangle building out the fractal depth
+            for (int j = 1; j < basePoints.Length; j++)
             {
-                double x1 = pta[j - 1].X;
-                double y1 = pta[j - 1].Y;
-                double x2 = pta[j].X;
-                double y2 = pta[j].Y;
+                double x1 = basePoints[j - 1].X;
+                double y1 = basePoints[j - 1].Y;
+                double x2 = basePoints[j].X;
+                double y2 = basePoints[j].Y;
                 double dx = x2 - x1;
                 double dy = y2 - y1;
                 double theta = Math.Atan2(dy, dx);
-                this.snowflakePoint = new Point(x1, y1);
-                this.SnowFlakeEdge(canvas, depth, theta, length);
+                this.fractalPoint = new Point(x1, y1);
+                this.AddFractalPoints(canvas, depth, theta, length);
             }
         }
 
         /// <summary>
-        /// Draws the edges of the snowflake
+        /// Draws the edges of the snowflake by adding points to the polyline object
         /// </summary>
         /// <param name="canvas">The canvas to draw on</param>
         /// <param name="depth">Current drawing depth</param>
-        /// <param name="theta">Angle offsets</param>
+        /// <param name="theta">Angle of the line currently being folded</param>
         /// <param name="distance">Length of the line segments at this depth</param>
-        private void SnowFlakeEdge(Canvas canvas, int depth, double theta, double distance)
+        private void AddFractalPoints(Canvas canvas, int depth, double theta, double distance)
         {
             Point pt = new Point();
 
             if (depth <= 0)
             {
-                pt.X = this.snowflakePoint.X + (distance * Math.Cos(theta));
-                pt.Y = this.snowflakePoint.Y + (distance * Math.Sin(theta));
+                // we've reached the bottom of the recursion this animation frame
+                // calculate the next point based on the fully modified segment length and angle
+                pt.X = this.fractalPoint.X + (distance * Math.Cos(theta));
+                pt.Y = this.fractalPoint.Y + (distance * Math.Sin(theta));
                 this.pl.Points.Add(pt);
-                this.snowflakePoint = pt;
+
+                // save this point for the next time we reach the bottom of the recursion
+                this.fractalPoint = pt;
+
+                // close this leg of the recursion
                 return;
             }
 
+            // Adjust the length for the next layer down
             distance *= this.distanceScale;
-            for (int j = 0; j < 4; j++)
+            for (int angleIndex = 0; angleIndex < this.deltaTheta.Length; angleIndex++)
             {
-                theta += this.deltaTheta[j];
-                this.SnowFlakeEdge(canvas, depth - 1, theta, distance);
+                // Adjust the line angle for each of the points at the next layer
+                theta += this.deltaTheta[angleIndex];
+                this.AddFractalPoints(canvas, depth - 1, theta, distance);
             }
         }
         #endregion
