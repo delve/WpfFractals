@@ -10,10 +10,11 @@ Features:
 These generalizing features will likely require stripping out the DrawFractal implementation entirely and defining the rendering algorithm as a function parameter or property. 
 	Might also require adding a collection of arbitrary objects to hold implementation specific variables.
 
-	Line extension fractal features:
-Accomodate parameterized branch spread (total angle of spread) defaulted to the current 2PI/5 total spread angle
-Accomodate parameterized number of branches defaulted to the current 2 branches
+	Symmetric Tree fractal features:
 Consider accomodating multiple start points
+
+	Asymmetric Tree fractal:
+Implement it. double[] angles
 
 	Line bending fractal features
 Generalize the line bending fractal to accomodate arbitrary bending patterns

@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="LineExtensionFractal.cs" company="None">
+// <copyright file="SymmetricTreeFractal.cs" company="None">
 //     MIT License (MIT)
 //     Copyright (c) 2014 Grady Brandt
 // </copyright>
@@ -27,7 +27,7 @@ namespace WpfFractals
 
         #region Constructors
         /// <summary>
-        /// Initializes a new instance of the LineExtensionFractal class.
+        /// Initializes a new instance of the SymmetricTreeFractal class.
         /// This class is used to draw fractals by algorithmically adding additional line
         /// segments onto each parent.
         /// </summary>
@@ -37,7 +37,7 @@ namespace WpfFractals
         }
 
         /// <summary>
-        /// Initializes a new instance of the LineExtensionFractal class.
+        /// Initializes a new instance of the SymmetricTreeFractal class.
         /// This class is used to draw fractals by algorithmically adding additional line
         /// segments onto each parent.
         /// </summary>
@@ -48,7 +48,7 @@ namespace WpfFractals
         }
 
         /// <summary>
-        /// Initializes a new instance of the LineExtensionFractal class.
+        /// Initializes a new instance of the SymmetricTreeFractal class.
         /// This class is used to draw fractals by algorithmically adding additional line
         /// segments onto each parent.
         /// </summary>
