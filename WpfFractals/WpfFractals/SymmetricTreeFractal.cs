@@ -173,8 +173,7 @@ namespace WpfFractals
                 -Math.PI / 2);
 
             this.StatusUpdate("Binary Tree - Depth = " + this.FractalDepth.ToString() + ". # of Branches = " + this.FractalCanvas.Children.Count);
-            this.FractalDepth += 1;
-            if (this.FractalDepth > this.MaxDepth || this.FractalDepth < 0)
+            if (this.FractalDepth == this.MaxDepth || this.FractalDepth < 0)
             {
                 this.StatusUpdate("Binary Tree - Depth = " + this.FractalDepth.ToString() + ". Finished. # of Branches = " + this.FractalCanvas.Children.Count);
 
@@ -183,6 +182,7 @@ namespace WpfFractals
                 this.RenderTicks = 0;
                 this.FractalDepth = 0;
             }
+            this.FractalDepth += 1;
         }
 
         /// <summary>
