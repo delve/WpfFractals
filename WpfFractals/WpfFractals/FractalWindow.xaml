@@ -5,6 +5,8 @@
     <StackPanel Orientation="Vertical">
         <StackPanel Orientation="Horizontal" Height="30">
             <Button x:Name="btnStart" Content="Draw Fractal" Click="BtnStart_Click" />
+            <Separator />
+            <ToolBar x:Name="FractalTools" Visibility="Hidden" />
         </StackPanel>
         <Canvas x:Name="fractalCanvas" Width="590" Height="510" />
         <StatusBar Focusable="False">

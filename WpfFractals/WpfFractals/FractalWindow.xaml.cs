@@ -8,6 +8,8 @@
 namespace WpfFractals
 {
     using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Reflection;
     using System.Windows;
     using System.Windows.Controls;
@@ -45,6 +47,7 @@ namespace WpfFractals
         {
             this.InitializeComponent();
             this.fractalCanvas.Background = background;
+            this.ToolCollection = new List<Control>();
         }
         #endregion
 
@@ -74,8 +77,23 @@ namespace WpfFractals
                 this.neatFractal = value;
                 this.HostedFractal.FractalCanvas = this.fractalCanvas;
                 this.HostedFractal.StatusUpdate += this.HandleStatusUpdate;
+
+                if (this.neatFractal.FractalParameterControls.Count > 0)
+                {   // load tools into the toolbar and set it's visibility
+                    foreach (Control item in this.neatFractal.FractalParameterControls)
+                    {
+                        this.FractalTools.Items.Add(item);
+                    }
+
+                    this.FractalTools.Visibility = Visibility.Visible;
+                }
             }
         }
+
+        /// <summary>
+        /// Gets or sets the collection of user interface WPF control objects
+        /// </summary>
+        private List<Control> ToolCollection { get; set; }
         #endregion
 
         #region Event handlers

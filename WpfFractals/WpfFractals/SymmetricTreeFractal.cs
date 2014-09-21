@@ -14,6 +14,7 @@ namespace WpfFractals
     using System.Threading.Tasks;
     using System.Windows;
     using System.Windows.Controls;
+    using System.Windows.Data;
     using System.Windows.Media;
     using System.Windows.Shapes;
 
@@ -23,6 +24,15 @@ namespace WpfFractals
     public class SymmetricTreeFractal : Fractal
     {
         #region Fields
+        /// <summary>
+        /// UI control object for this.ChildCount
+        /// </summary>
+        private TextBox uiChildren;
+
+        /// <summary>
+        /// UI control object for this.MaxDepth
+        /// </summary>
+        private TextBox uiDepth;
         #endregion
 
         #region Constructors
@@ -62,7 +72,7 @@ namespace WpfFractals
         /// <param name="childOffset">The offset of the child lines as a percentage of parent segment length</param>
         /// <param name="childOffsetRotation">The angle of rotation from the theta of the parent segment applied to the offset</param>
         /// <param name="children">Number of child branches</param>
-        public SymmetricTreeFractal(int minPixels, int depth, int speed = 1, double angleDelta = Math.PI / 5, double childScale = 0.75, double childOffset = 0, double childOffsetRotation = 0, int children = 2)
+        public SymmetricTreeFractal(int minPixels, int depth, int speed = 1, double angleDelta = 2 * Math.PI / 5, double childScale = 0.75, double childOffset = 0, double childOffsetRotation = 0, int children = 2)
         {
             this.MinSize = minPixels;
             this.MaxDepth = depth;
@@ -80,6 +90,22 @@ namespace WpfFractals
             {
                 this.MaxDepth = 1;
             }
+
+            // deal with the controls
+            Label label;
+
+            // Number of children
+            label = new Label { Content = "Branches" };
+            this.uiChildren = new TextBox { Width = 20, DataContext = this };
+            this.uiChildren.SetBinding(TextBox.TextProperty, new Binding("ChildCount") { Mode = BindingMode.TwoWay, UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
+            this.FractalParameterControls.Add(label);
+            this.FractalParameterControls.Add(this.uiChildren);
+
+            label = new Label { Content = "Depth" };
+            this.uiDepth = new TextBox { Width = 30, DataContext = this };
+            this.uiDepth.SetBinding(TextBox.TextProperty, new Binding("MaxDepth") { Mode = BindingMode.TwoWay, UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
+            this.FractalParameterControls.Add(label);
+            this.FractalParameterControls.Add(this.uiDepth);
         }
         #endregion
 

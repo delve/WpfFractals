@@ -1,4 +1,6 @@
 ﻿TODOs:
+Continue implementing user interface controls for symmetric tree  and implement for Koch Snowflake
+Implement user input validation on controls (1.5 children doesn't make sense)
 properly grok the Koch Snowflake algorithm in order to improve the comments
 
 
@@ -7,24 +9,18 @@ Fixes:
 Refactoring:
 
 Features:
-These generalizing features will likely require stripping out the DrawFractal implementation entirely and defining the rendering algorithm as a function parameter or property. 
-	Might also require adding a collection of arbitrary objects to hold implementation specific variables.
 
 	Symmetric Tree fractal features:
 Consider accomodating multiple start points
 
 	Asymmetric Tree fractal:
-Implement it. double[] angles
+Implement it. double[] angles & child scale
 
 	Line bending fractal features
 Generalize the line bending fractal to accomodate arbitrary bending patterns
 
+
 Future dev:
 Re-implement as Lindenmayer systems (with associated L-system interpretation engine)
-
-The fractal window could be used as a base class to create 'complex' windows defining controls that allow interaction with the fractal
-	(a collection of WPF controls defined by the contained fractal object)
-		Give FractalWindow a toolbox and give Fractal type an empty container property for containing WPF controls. Supporting fractal subtypes will populate 
-			the container and implement data binding. When a fractal is added to FractalWindow it loads any controls into its toolbox.
 
 Implement non-line fractals (Mandelbrot)

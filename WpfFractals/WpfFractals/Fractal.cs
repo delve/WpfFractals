@@ -29,6 +29,7 @@ namespace WpfFractals
         /// </summary>
         public Fractal()
         {
+            this.FractalParameterControls = new List<Control>();
         }
         #endregion
 
@@ -67,6 +68,11 @@ namespace WpfFractals
         /// higher values = slower but this is at the discretion of the implementation.
         /// </summary>
         public int DrawSpeed { get; set; }
+
+        /// <summary>
+        /// Gets or sets the list containing WPF control objects for interacting with the fractal
+        /// </summary>
+        public List<Control> FractalParameterControls { get; set; }
 
         /// <summary>
         /// Gets or sets the value tracking how many times CompositionTarget.Rendering has fired during rendering
