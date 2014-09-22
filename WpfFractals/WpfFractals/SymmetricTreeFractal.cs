@@ -182,6 +182,7 @@ namespace WpfFractals
                 this.RenderTicks = 0;
                 this.FractalDepth = 0;
             }
+
             this.FractalDepth += 1;
         }
 

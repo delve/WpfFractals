@@ -1,8 +1,6 @@
 ﻿TODOs:
 Continue implementing user interface controls for symmetric tree  and implement for Koch Snowflake
 Implement user input validation on controls (1.5 children doesn't make sense)
-properly grok the Koch Snowflake algorithm in order to improve the comments
-
 
 Fixes:
 
@@ -18,7 +16,6 @@ Implement it. double[] angles & child scale
 
 	Line bending fractal features
 Generalize the line bending fractal to accomodate arbitrary bending patterns
-
 
 Future dev:
 Re-implement as Lindenmayer systems (with associated L-system interpretation engine)

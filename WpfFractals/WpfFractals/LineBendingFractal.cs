@@ -96,7 +96,7 @@ namespace WpfFractals
                 this.FractalCanvas.Children.Add(this.pl);
                 this.pl.Stroke = Brushes.Blue;
 
-                //ensure these control properties are reset
+                // ensure these control properties are reset
                 this.RenderTicks = 0;
                 this.FractalDepth = 0;
 
@@ -133,6 +133,7 @@ namespace WpfFractals
                 this.FractalDepth = 0;
                 this.rendering = false;
             }
+
             this.FractalDepth += 1;
         } 
 
@@ -207,7 +208,7 @@ namespace WpfFractals
                 // close this leg of the recursion
                 return;
             }
-
+            
             // Adjust the length for the next layer down
             distance *= this.distanceScale;
             for (int angleIndex = 0; angleIndex < this.deltaTheta.Length; angleIndex++)
