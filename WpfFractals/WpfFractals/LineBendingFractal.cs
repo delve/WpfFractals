@@ -101,8 +101,8 @@ namespace WpfFractals
                 this.FractalDepth = 0;
 
                 // determine the size of the initial trianle sides
-                double sizeY = 0.8 * this.FractalCanvas.Height / (Math.Sqrt(3) * 4 / 3);
-                double sizeX = 0.8 * this.FractalCanvas.Width / 2;
+                double sizeY = 0.8 * this.FractalCanvas.ActualHeight / (Math.Sqrt(3) * 4 / 3);
+                double sizeX = 0.8 * this.FractalCanvas.ActualWidth / 2;
                 double size = 0;
                 if (sizeY < sizeX)
                 {
@@ -145,8 +145,8 @@ namespace WpfFractals
         /// <param name="depth">Current drawing depth</param>
         private void DrawBaseShape(Canvas canvas, double length, int depth)
         {
-            double xmid = canvas.Width / 2;
-            double ymid = canvas.Height / 2;
+            double xmid = canvas.ActualWidth / 2;
+            double ymid = canvas.ActualHeight / 2;
             Point[] basePoints = new Point[4];
 
             // define the bottom point

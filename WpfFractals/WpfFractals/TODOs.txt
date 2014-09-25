@@ -3,6 +3,7 @@ Continue implementing user interface controls for symmetric tree  and implement 
 Implement user input validation on controls (1.5 children doesn't make sense)
 
 Fixes:
+scaling on symmetric tree looks a little off, causing the top to clip the window edge unpredicatably. may not be resolvable given user controls
 
 Refactoring:
 

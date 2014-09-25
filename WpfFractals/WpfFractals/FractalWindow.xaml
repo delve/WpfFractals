@@ -2,15 +2,21 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Fractal Window" Height="600" Width="600">
-    <StackPanel Orientation="Vertical">
-        <StackPanel Orientation="Horizontal" Height="30">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50*" MinHeight="50"/>
+            <RowDefinition Height="484*"/>
+            <RowDefinition Height="35*" MinHeight="35"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
             <Button x:Name="btnStart" Content="Draw Fractal" Click="BtnStart_Click" />
             <Separator />
             <ToolBar x:Name="FractalTools" Visibility="Hidden" />
         </StackPanel>
-        <Canvas x:Name="fractalCanvas" Width="590" Height="510" />
-        <StatusBar Focusable="False">
+        <Canvas x:Name="fractalCanvas" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1" />
+        <!-- Width="{Binding ElementName=window, Path=ActualWidth}" Height="{Binding ElementName=window,Path=ActualHeight}" /> -->
+        <StatusBar Focusable="False" Grid.Row="2">
             <TextBlock x:Name="statbarMessage" Text="Ready" />
         </StatusBar>
-    </StackPanel>
+    </Grid>
 </Window>
