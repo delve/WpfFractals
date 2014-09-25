@@ -169,7 +169,7 @@ namespace WpfFractals
                 this.FractalCanvas,
                 this.FractalDepth,
                 new Point(this.FractalCanvas.ActualWidth / 2, 0.83 * this.FractalCanvas.ActualHeight),
-                0.2 * this.FractalCanvas.ActualWidth,
+                (this.FractalCanvas.ActualWidth < this.FractalCanvas.ActualHeight ? 0.2 * this.FractalCanvas.ActualWidth : 0.2 * this.FractalCanvas.ActualHeight),
                 -Math.PI / 2);
 
             this.StatusUpdate("Binary Tree - Depth = " + this.FractalDepth.ToString() + ". # of Branches = " + this.FractalCanvas.Children.Count);
