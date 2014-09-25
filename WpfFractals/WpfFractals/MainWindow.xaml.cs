@@ -40,7 +40,7 @@ namespace WpfFractals
             FractalWindow winFrac = new FractalWindow(brushBG);
 
             // setup the fractal we're going to draw and put it in a new FractalWindow object
-            SymmetricTreeFractal fractal = new SymmetricTreeFractal(1, 10, 5);
+            SymmetricTreeFractal fractal = new SymmetricTreeFractal(10, 1, 5);
             ////fractal.ChildOffset = 0.2;
             ////fractal.ChildOffsetRotation = 3 * Math.PI / 2;
             ////fractal.DrawSpeed = 1;

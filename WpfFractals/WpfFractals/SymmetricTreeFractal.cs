@@ -42,7 +42,7 @@ namespace WpfFractals
         /// segments onto each parent.
         /// </summary>
         public SymmetricTreeFractal()
-            : this(1, 0)
+            : this(0, 1)
         {
         }
 
@@ -53,7 +53,7 @@ namespace WpfFractals
         /// </summary>
         /// <param name="minPixels">Sets the minimum size in pixels per line segment to use as an escape value for the recursion</param>
         public SymmetricTreeFractal(int minPixels)
-            : this(minPixels, 0)
+            : this(0, minPixels)
         {
         }
 
@@ -62,17 +62,17 @@ namespace WpfFractals
         /// This class is used to draw fractals by algorithmically adding additional line
         /// segments onto each parent.
         /// </summary>
-        /// <param name="minPixels">Sets the minimum size in pixels per line segment to use as an escape value for the recursion. 
-        /// 0 will draw the fractal to the defined maximum depth, or depth 1 if depth is also set to 0.</param>
         /// <param name="depth">Sets the maximum depth to use in the recursion. 
         /// 0 will draw the fractal to the defined minimum line segment length, or depth 1 if minPixels is also set to 0.</param>
+        /// <param name="minPixels">Sets the minimum size in pixels per line segment to use as an escape value for the recursion. 
+        /// 0 will draw the fractal to the defined maximum depth, or depth 1 if depth is also set to 0.</param>
         /// <param name="speed">Roughly controls the drawing speed by skipping 'speed' number of rendering cycles between depth renderings. Higher = slower</param>
         /// <param name="angleDelta">Child branchs' angle +/- delta from the parent</param>
         /// <param name="childScale">Ratio of child branchs' length to parents'</param>
         /// <param name="childOffset">The offset of the child lines as a percentage of parent segment length</param>
         /// <param name="childOffsetRotation">The angle of rotation from the theta of the parent segment applied to the offset</param>
         /// <param name="children">Number of child branches</param>
-        public SymmetricTreeFractal(int minPixels, int depth, int speed = 1, double angleDelta = 2 * Math.PI / 5, double childScale = 0.75, double childOffset = 0, double childOffsetRotation = 0, int children = 2)
+        public SymmetricTreeFractal(int depth, int minPixels = 1, int speed = 1, double angleDelta = 2 * Math.PI / 5, double childScale = 0.75, double childOffset = 0, double childOffsetRotation = 0, int children = 2)
         {
             this.MinSize = minPixels;
             this.MaxDepth = depth;
@@ -91,8 +91,15 @@ namespace WpfFractals
                 this.MaxDepth = 1;
             }
 
-            // deal with the controls
+            // create the controls
             Label label;
+
+            // Maximum render depth
+            label = new Label { Content = "Depth" };
+            this.uiDepth = new TextBox { Width = 30, DataContext = this };
+            this.uiDepth.SetBinding(TextBox.TextProperty, new Binding("MaxDepth") { Mode = BindingMode.TwoWay, UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
+            this.FractalParameterControls.Add(label);
+            this.FractalParameterControls.Add(this.uiDepth);
 
             // Number of children
             label = new Label { Content = "Branches" };
@@ -100,12 +107,6 @@ namespace WpfFractals
             this.uiChildren.SetBinding(TextBox.TextProperty, new Binding("ChildCount") { Mode = BindingMode.TwoWay, UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
             this.FractalParameterControls.Add(label);
             this.FractalParameterControls.Add(this.uiChildren);
-
-            label = new Label { Content = "Depth" };
-            this.uiDepth = new TextBox { Width = 30, DataContext = this };
-            this.uiDepth.SetBinding(TextBox.TextProperty, new Binding("MaxDepth") { Mode = BindingMode.TwoWay, UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
-            this.FractalParameterControls.Add(label);
-            this.FractalParameterControls.Add(this.uiDepth);
         }
         #endregion
 
