@@ -94,9 +94,16 @@ namespace WpfFractals
             // create the controls
             Label label;
 
+            // 'Animation speed'
+            label = new Label { Content = "Frames Between Steps" };
+            this.uiDepth = new TextBox { Width = 20, DataContext = this };
+            this.uiDepth.SetBinding(TextBox.TextProperty, new Binding("DrawSpeed") { Mode = BindingMode.TwoWay, UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
+            this.FractalParameterControls.Add(label);
+            this.FractalParameterControls.Add(this.uiDepth);
+
             // Maximum render depth
             label = new Label { Content = "Depth" };
-            this.uiDepth = new TextBox { Width = 30, DataContext = this };
+            this.uiDepth = new TextBox { Width = 20, DataContext = this };
             this.uiDepth.SetBinding(TextBox.TextProperty, new Binding("MaxDepth") { Mode = BindingMode.TwoWay, UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
             this.FractalParameterControls.Add(label);
             this.FractalParameterControls.Add(this.uiDepth);
@@ -105,6 +112,41 @@ namespace WpfFractals
             label = new Label { Content = "Branches" };
             this.uiChildren = new TextBox { Width = 20, DataContext = this };
             this.uiChildren.SetBinding(TextBox.TextProperty, new Binding("ChildCount") { Mode = BindingMode.TwoWay, UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
+            this.FractalParameterControls.Add(label);
+            this.FractalParameterControls.Add(this.uiChildren);
+
+            // Branch Scale
+            label = new Label { Content = "Branch Length Ratio" };
+            this.uiChildren = new TextBox { Width = 30, DataContext = this };
+            this.uiChildren.SetBinding(TextBox.TextProperty, new Binding("ChildScale") { Mode = BindingMode.TwoWay, UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
+            this.FractalParameterControls.Add(label);
+            this.FractalParameterControls.Add(this.uiChildren);
+
+            // Minimum pixel length
+            label = new Label { Content = "Minimum Length" };
+            this.uiChildren = new TextBox { Width = 20, DataContext = this };
+            this.uiChildren.SetBinding(TextBox.TextProperty, new Binding("MinSize") { Mode = BindingMode.TwoWay, UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
+            this.FractalParameterControls.Add(label);
+            this.FractalParameterControls.Add(this.uiChildren);
+
+            // Child angle
+            label = new Label { Content = "Total Branch Angle" };
+            this.uiChildren = new TextBox { Width = 30, DataContext = this };
+            this.uiChildren.SetBinding(TextBox.TextProperty, new Binding("DeltaTheta") { Mode = BindingMode.TwoWay, UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
+            this.FractalParameterControls.Add(label);
+            this.FractalParameterControls.Add(this.uiChildren);
+
+            // Child offset
+            label = new Label { Content = "% Offset from Parent Branch" };
+            this.uiChildren = new TextBox { Width = 20, DataContext = this };
+            this.uiChildren.SetBinding(TextBox.TextProperty, new Binding("ChildOffset") { Mode = BindingMode.TwoWay, UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
+            this.FractalParameterControls.Add(label);
+            this.FractalParameterControls.Add(this.uiChildren);
+
+            // Child offset
+            label = new Label { Content = "Offset Rotation" };
+            this.uiChildren = new TextBox { Width = 20, DataContext = this };
+            this.uiChildren.SetBinding(TextBox.TextProperty, new Binding("ChildOffsetRotation") { Mode = BindingMode.TwoWay, UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
             this.FractalParameterControls.Add(label);
             this.FractalParameterControls.Add(this.uiChildren);
         }
@@ -170,7 +212,7 @@ namespace WpfFractals
                 this.FractalCanvas,
                 this.FractalDepth,
                 new Point(this.FractalCanvas.ActualWidth / 2, 0.83 * this.FractalCanvas.ActualHeight),
-                (this.FractalCanvas.ActualWidth < this.FractalCanvas.ActualHeight ? 0.2 * this.FractalCanvas.ActualWidth : 0.2 * this.FractalCanvas.ActualHeight),
+                this.FractalCanvas.ActualWidth < this.FractalCanvas.ActualHeight ? 0.2 * this.FractalCanvas.ActualWidth : 0.2 * this.FractalCanvas.ActualHeight,
                 -Math.PI / 2);
 
             this.StatusUpdate("Binary Tree - Depth = " + this.FractalDepth.ToString() + ". # of Branches = " + this.FractalCanvas.Children.Count);

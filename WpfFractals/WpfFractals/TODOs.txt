@@ -1,6 +1,7 @@
 ﻿TODOs:
-Continue implementing user interface controls for symmetric tree  and implement for Koch Snowflake
-Implement user input validation on controls (1.5 children doesn't make sense)
+Implement user controls for Koch Snowflake
+Implement user input validation on controls (1.5 children doesn't make sense, speed and render depth can't both be 0)
+Try IValueConverter to make the UI values prettier (maybe do angle in degrees, convert length ratio and offset lengthto whole number %s)
 
 Fixes:
 
