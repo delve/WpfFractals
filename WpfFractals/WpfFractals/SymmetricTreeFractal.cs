@@ -24,15 +24,6 @@ namespace WpfFractals
     public class SymmetricTreeFractal : Fractal
     {
         #region Fields
-        /// <summary>
-        /// UI control object for this.ChildCount
-        /// </summary>
-        private TextBox uiChildren;
-
-        /// <summary>
-        /// UI control object for this.MaxDepth
-        /// </summary>
-        private TextBox uiDepth;
         #endregion
 
         #region Constructors
@@ -93,62 +84,63 @@ namespace WpfFractals
 
             // create the controls
             Label label;
+            TextBox userControl;
 
             // 'Animation speed'
             label = new Label { Content = "Frames Between Steps" };
-            this.uiDepth = new TextBox { Width = 20, DataContext = this };
-            this.uiDepth.SetBinding(TextBox.TextProperty, new Binding("DrawSpeed") { Mode = BindingMode.TwoWay, UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
+            userControl = new TextBox { Width = 20, DataContext = this };
+            userControl.SetBinding(TextBox.TextProperty, new Binding("DrawSpeed") { Mode = BindingMode.TwoWay, UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged, ValidatesOnExceptions = true });
             this.FractalParameterControls.Add(label);
-            this.FractalParameterControls.Add(this.uiDepth);
+            this.FractalParameterControls.Add(userControl);
 
             // Maximum render depth
             label = new Label { Content = "Depth" };
-            this.uiDepth = new TextBox { Width = 20, DataContext = this };
-            this.uiDepth.SetBinding(TextBox.TextProperty, new Binding("MaxDepth") { Mode = BindingMode.TwoWay, UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
+            userControl = new TextBox { Width = 20, DataContext = this };
+            userControl.SetBinding(TextBox.TextProperty, new Binding("MaxDepth") { Mode = BindingMode.TwoWay, UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
             this.FractalParameterControls.Add(label);
-            this.FractalParameterControls.Add(this.uiDepth);
+            this.FractalParameterControls.Add(userControl);
 
             // Number of children
             label = new Label { Content = "Branches" };
-            this.uiChildren = new TextBox { Width = 20, DataContext = this };
-            this.uiChildren.SetBinding(TextBox.TextProperty, new Binding("ChildCount") { Mode = BindingMode.TwoWay, UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
+            userControl = new TextBox { Width = 20, DataContext = this };
+            userControl.SetBinding(TextBox.TextProperty, new Binding("ChildCount") { Mode = BindingMode.TwoWay, UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
             this.FractalParameterControls.Add(label);
-            this.FractalParameterControls.Add(this.uiChildren);
+            this.FractalParameterControls.Add(userControl);
 
             // Branch Scale
             label = new Label { Content = "Branch Length Ratio" };
-            this.uiChildren = new TextBox { Width = 30, DataContext = this };
-            this.uiChildren.SetBinding(TextBox.TextProperty, new Binding("ChildScale") { Mode = BindingMode.TwoWay, UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
+            userControl = new TextBox { Width = 30, DataContext = this };
+            userControl.SetBinding(TextBox.TextProperty, new Binding("ChildScale") { Mode = BindingMode.TwoWay, UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
             this.FractalParameterControls.Add(label);
-            this.FractalParameterControls.Add(this.uiChildren);
+            this.FractalParameterControls.Add(userControl);
 
             // Minimum pixel length
             label = new Label { Content = "Minimum Length" };
-            this.uiChildren = new TextBox { Width = 20, DataContext = this };
-            this.uiChildren.SetBinding(TextBox.TextProperty, new Binding("MinSize") { Mode = BindingMode.TwoWay, UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
+            userControl = new TextBox { Width = 20, DataContext = this };
+            userControl.SetBinding(TextBox.TextProperty, new Binding("MinSize") { Mode = BindingMode.TwoWay, UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
             this.FractalParameterControls.Add(label);
-            this.FractalParameterControls.Add(this.uiChildren);
+            this.FractalParameterControls.Add(userControl);
 
             // Child angle
             label = new Label { Content = "Total Branch Angle" };
-            this.uiChildren = new TextBox { Width = 30, DataContext = this };
-            this.uiChildren.SetBinding(TextBox.TextProperty, new Binding("DeltaTheta") { Mode = BindingMode.TwoWay, UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
+            userControl = new TextBox { Width = 30, DataContext = this };
+            userControl.SetBinding(TextBox.TextProperty, new Binding("DeltaTheta") { Mode = BindingMode.TwoWay, UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
             this.FractalParameterControls.Add(label);
-            this.FractalParameterControls.Add(this.uiChildren);
+            this.FractalParameterControls.Add(userControl);
 
             // Child offset
             label = new Label { Content = "% Offset from Parent Branch" };
-            this.uiChildren = new TextBox { Width = 20, DataContext = this };
-            this.uiChildren.SetBinding(TextBox.TextProperty, new Binding("ChildOffset") { Mode = BindingMode.TwoWay, UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
+            userControl = new TextBox { Width = 20, DataContext = this };
+            userControl.SetBinding(TextBox.TextProperty, new Binding("ChildOffset") { Mode = BindingMode.TwoWay, UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
             this.FractalParameterControls.Add(label);
-            this.FractalParameterControls.Add(this.uiChildren);
+            this.FractalParameterControls.Add(userControl);
 
             // Child offset
             label = new Label { Content = "Offset Rotation" };
-            this.uiChildren = new TextBox { Width = 20, DataContext = this };
-            this.uiChildren.SetBinding(TextBox.TextProperty, new Binding("ChildOffsetRotation") { Mode = BindingMode.TwoWay, UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
+            userControl = new TextBox { Width = 20, DataContext = this };
+            userControl.SetBinding(TextBox.TextProperty, new Binding("ChildOffsetRotation") { Mode = BindingMode.TwoWay, UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
             this.FractalParameterControls.Add(label);
-            this.FractalParameterControls.Add(this.uiChildren);
+            this.FractalParameterControls.Add(userControl);
         }
         #endregion
 
